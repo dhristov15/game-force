@@ -1,4 +1,4 @@
-package renderEngine;
+	package renderEngine;
  
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import entities.Entity;
 import entities.Light;
 import models.TexturedModel;
 import shaders.StaticShader;
-import shaders.TerrainShader;
+import terrains.TerrainShader;
 import skybox.SkyboxRenderer;
 import terrains.Terrain;
  
@@ -50,6 +50,10 @@ public class MasterRenderer {
         terrainRenderer = new TerrainRenderer(terrainShader,projectionMatrix);
         skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
     }
+    
+    public Matrix4f getProjectionMatrix() {
+    	return projectionMatrix;
+    }
      
     public static void enableCulling() {
     	GL11.glEnable(GL11.GL_CULL_FACE);
@@ -58,6 +62,16 @@ public class MasterRenderer {
     
     public static void disableCulling() {
     	GL11.glDisable(GL11.GL_CULL_FACE);
+    }
+    
+    public void renderScene(List<Entity> entities, List<Terrain> terrains, List<Light> lights, Camera camera) {
+    	for(Terrain terrain : terrains) {
+    		processTerrain(terrain);
+    	}
+    	for(Entity entity: entities) {
+    		processEntity(entity);
+    	}
+    	render(lights,camera);
     }
     
     public void render(List<Light> lights,Camera camera){

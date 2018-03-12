@@ -24,6 +24,7 @@ import terrains.Terrain;
 import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
+import toolbox.MousePicker;
 
 public class MainGameLoop {
 
@@ -71,10 +72,11 @@ public class MainGameLoop {
 
 		TexturedModel pineTree = new TexturedModel(OBJLoader.loadObjModel("pine", loader),
 				new ModelTexture(loader.loadTexture("pine")));
-		
+		List<Terrain> terrains = new ArrayList<Terrain>();
 		Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightMap");
 		//Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap, "heightMap");
-
+		terrains.add(terrain);
+		
 		List<Entity> entities = new ArrayList<Entity>();
 		Random random = new Random(676452);
 		for (int i = 0; i < 400; i++) {
@@ -113,18 +115,14 @@ public class MainGameLoop {
 		}
 
 		List<Light> lights = new ArrayList<>();
-		lights.add(new Light(new Vector3f(0,1000,-7000), new Vector3f(0.4f, 0.4f, 0.4f)));
-		lights.add(new Light(new Vector3f(185,10,-293), new Vector3f(2,2,0), new Vector3f(1,0.01f,0.002f)));
-		lights.add(new Light(new Vector3f(370,17,-300), new Vector3f(2,2,0), new Vector3f(1,0.01f,0.002f)));
-		lights.add(new Light(new Vector3f(293,7,-305), new Vector3f(2,2,0), new Vector3f(1,0.01f,0.002f)));
-
+		Light light = new Light(new Vector3f(185,10,-293), new Vector3f(2,2,0), new Vector3f(1,0.01f,0.002f));
+		lights.add(light);
 		
 		TexturedModel lamp = new TexturedModel(OBJLoader.loadObjModel("lamp", loader),
 				new ModelTexture(loader.loadTexture("lamp")));
 		lamp.getTexture().setUseFakeLighting(true);
-		entities.add(new Entity(lamp, new Vector3f(185, -4.7f, -293), 0, 0, 0, 1));
-		entities.add(new Entity(lamp, new Vector3f(370, 4.2f, -300), 0, 0, 0, 1));
-		entities.add(new Entity(lamp, new Vector3f(293, -6.8f, -305), 0, 0, 0, 1));
+		Entity lampEntity = new Entity(lamp, new Vector3f(185, -4.7f, -293), 0, 0, 0, 1);
+		entities.add(lampEntity);
 
 		MasterRenderer renderer = new MasterRenderer(loader);
 
@@ -141,9 +139,16 @@ public class MainGameLoop {
 		
 		GuiRenderer guiRenderer = new GuiRenderer(loader);
 
+		MousePicker picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
+		
 		while (!Display.isCloseRequested()) {
 			camera.move();
 			player.move(terrain);
+			
+			picker.update();
+			
+			renderer.renderScene(entities, terrains, lights, camera);
+			
 			renderer.processEntity(player);
 			renderer.processTerrain(terrain);
 			//renderer.processTerrain(terrain2);
