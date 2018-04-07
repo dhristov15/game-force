@@ -42,6 +42,7 @@ public class MainGameLoop {
 
 		TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
 		TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
+		TerrainTexture blendMap1 = new TerrainTexture(loader.loadTexture("blendMap1"));
 
 		// TERRAIN TEXTURE
 
@@ -74,8 +75,23 @@ public class MainGameLoop {
 				new ModelTexture(loader.loadTexture("pine")));
 		List<Terrain> terrains = new ArrayList<Terrain>();
 		Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightMap");
-		//Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap, "heightMap");
+		Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap1, "heightMap");
+		Terrain terrain3 = new Terrain(1, -1, loader, texturePack, blendMap, "heightMap");
+		Terrain terrain4 = new Terrain(0, 0, loader, texturePack, blendMap1, "heightMap");
+		Terrain terrain5 = new Terrain(-1, 0, loader, texturePack, blendMap, "heightMap");
+		Terrain terrain6 = new Terrain(1, 0, loader, texturePack, blendMap1, "heightMap");
+		Terrain terrain7 = new Terrain(0, 1, loader, texturePack, blendMap, "heightMap");
+		Terrain terrain8 = new Terrain(-1, 1, loader, texturePack, blendMap1, "heightMap");
+		Terrain terrain9 = new Terrain(1, 1, loader, texturePack, blendMap, "heightMap");
 		terrains.add(terrain);
+		terrains.add(terrain2);
+		terrains.add(terrain3);
+		terrains.add(terrain4);
+		terrains.add(terrain5);
+		terrains.add(terrain6);
+		terrains.add(terrain7);
+		terrains.add(terrain8);
+		terrains.add(terrain9);
 		
 		List<Entity> entities = new ArrayList<Entity>();
 		Random random = new Random(676452);
@@ -151,7 +167,14 @@ public class MainGameLoop {
 			
 			renderer.processEntity(player);
 			renderer.processTerrain(terrain);
-			//renderer.processTerrain(terrain2);
+			renderer.processTerrain(terrain2);
+			renderer.processTerrain(terrain3);
+			renderer.processTerrain(terrain4);
+			renderer.processTerrain(terrain5);
+			renderer.processTerrain(terrain6);
+			renderer.processTerrain(terrain7);
+			renderer.processTerrain(terrain8);
+			renderer.processTerrain(terrain9);
 			for (Entity entity : entities) {
 				renderer.processEntity(entity);
 			}
