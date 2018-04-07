@@ -36,10 +36,23 @@ public class Player extends Entity {
 		upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
 		super.increasePositon(0, upwardsSpeed * DisplayManager.getFrameTimeSeconds(), 0);
 		float terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z);
+		
 		if (super.getPosition().y < terrainHeight) {
 			upwardsSpeed = 0;
 			isInAir = false;
 			super.getPosition().y = terrainHeight;
+		}
+		if(super.getPosition().x < terrain.getX()) {
+			super.getPosition().x = terrain.getX();
+		}
+		if(super.getPosition().x > terrain.getSize()) {
+			super.getPosition().x = terrain.getSize();
+		}
+		if(super.getPosition().z < terrain.getZ()) {
+			super.getPosition().z = terrain.getZ();
+		}
+		if(super.getPosition().z > terrain.getSize() / 1200) {
+			super.getPosition().z = terrain.getSize() / 1200;
 		}
 	}
 
