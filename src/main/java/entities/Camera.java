@@ -5,14 +5,14 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Camera {
 	
-	private float zoomDistance = 50;
+	private float zoomDistance = 0;
 	private float angleAroundPlayer = 1;
 	
 	//private static final float RUN_SPEED = 0.25f;
 	//private static final float TURN_SPEED = 0.25f;
 
 	private Vector3f position = new Vector3f(0, 0, 0);
-	private float pitch = 20;
+	private float pitch = 0;
 	private float yaw = 0;
 	private float roll;
 	
@@ -24,8 +24,8 @@ public class Camera {
 
 	public void move() {
 		calculateZoom();
-		calculatePitch();
-		calculateAngleAroundPlayer();
+		//calculatePitch();
+		//calculateAngleAroundPlayer();
 		float horizontalDistance = calculateHorizontalDistance();
 		float verticalDistance = calculateVerticalDistance();
 		calculateCameraPosition(horizontalDistance,verticalDistance);
@@ -60,7 +60,7 @@ public class Camera {
 		float offsetZ = (float) (horizontalDistance * Math.cos(Math.toRadians(theta)));
 		position.x = player.getPosition().x - offsetX;
 		position.z = player.getPosition().z - offsetZ;
-		position.y = player.getPosition().y + verticalDistance;
+		position.y = player.getPosition().y + verticalDistance + 7;
 	}
 	
 	
@@ -89,19 +89,19 @@ public class Camera {
 			zoomDistance = 300;
 		}
 	}
-	private void calculatePitch() {
-		if(Mouse.isButtonDown(0)) {
-			float pitchChange = Mouse.getDY() * 0.1f;
-			pitch -= pitchChange;
-			float angleChange = Mouse.getDX() * 0.3f;
-			angleAroundPlayer -= angleChange;
-		}
-	}
-	private void calculateAngleAroundPlayer() {
-		//if(Mouse.isButtonDown(1)) {
-			//float angleChange = Mouse.getDX() * 0.3f;
-			//angleAroundPlayer -= angleChange;
-		//}
-	}
+//	private void calculatePitch() {
+//		if(Mouse.isButtonDown(0)) {
+//			float pitchChange = Mouse.getDY() * 0.1f;
+//			pitch -= pitchChange;
+//			float angleChange = Mouse.getDX() * 0.3f;
+//			angleAroundPlayer -= angleChange;
+//		}
+//	}
+//	private void calculateAngleAroundPlayer() {
+//		if(Mouse.isButtonDown(1)) {
+//			float angleChange = Mouse.getDX() * 0.3f;
+//			angleAroundPlayer -= angleChange;
+//		}
+//	}
 
 }
